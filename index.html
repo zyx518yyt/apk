@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#FF6B9D">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="粉粉提醒">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍑</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍑</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <title>粉粉提醒 - 你的贴心小管家</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 顶部状态栏区域 -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-greeting">
+                    <span class="header-icon">🍑</span>
+                    <div>
+                        <h1 class="app-title">粉粉提醒</h1>
+                        <p class="app-subtitle" id="greetingText">今天也要好好照顾自己哦~</p>
+                    </div>
+                </div>
+                <div class="header-date" id="todayDate"></div>
+            </div>
+        </header>
+
+        <!-- 页面内容区 -->
+        <main class="app-main" id="mainContent">
+            <!-- 首页 -->
+            <section class="page active" id="page-home">
+                <!-- 倒计时卡片 -->
+                <div class="countdown-card" id="nextReminderCard">
+                    <div class="countdown-label">⏰ 下一个提醒</div>
+                    <div class="countdown-time" id="countdownTime">--:--:--</div>
+                    <div class="countdown-title" id="countdownTitle">暂无提醒</div>
+                    <div class="countdown-progress">
+                        <div class="countdown-progress-bar" id="countdownProgress"></div>
+                    </div>
+                </div>
+
+                <!-- 今日统计 -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-number" id="todayTotal">0</div>
+                        <div class="stat-label">今日提醒</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="todayDone">0</div>
+                        <div class="stat-label">已完成</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalReminders">0</div>
+                        <div class="stat-label">全部事项</div>
+                    </div>
+                </div>
+
+                <!-- 今日提醒列表 -->
+                <div class="section-header">
+                    <h2 class="section-title">📋 今日清单</h2>
+                    <button class="text-btn" onclick="App.goTo('list')">全部</button>
+                </div>
+                <div class="reminder-list" id="todayList">
+                    <div class="empty-state">
+                        <div class="empty-icon">🌸</div>
+                        <p>今天还没有提醒事项</p>
+                        <button class="btn-primary" onclick="App.goTo('add')">添加第一个提醒</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 添加/编辑提醒页 -->
+            <section class="page" id="page-add">
+                <div class="page-title-bar">
+                    <button class="back-btn" onclick="App.goTo('home')">‹</button>
+                    <h2 class="page-title" id="addPageTitle">添加提醒</h2>
+                </div>
+
+                <form class="reminder-form" id="reminderForm">
+                    <input type="hidden" id="editId" value="">
+
+                    <!-- 事项名称 -->
+                    <div class="form-group">
+                        <label class="form-label">事项名称</label>
+                        <input type="text" class="form-input" id="reminderName" placeholder="比如：喝水、吃药、运动..." maxlength="30" required>
+                    </div>
+
+                    <!-- 图标选择 -->
+                    <div class="form-group">
+                        <label class="form-label">选择图标</label>
+                        <div class="icon-picker" id="iconPicker">
+                            <button type="button" class="icon-option active" data-icon="💧">💧</button>
+                            <button type="button" class="icon-option" data-icon="💊">💊</button>
+                            <button type="button" class="icon-option" data-icon="🏃">🏃</button>
+                            <button type="button" class="icon-option" data-icon="🍎">🍎</button>
+                            <button type="button" class="icon-option" data-icon="😴">😴</button>
+                            <button type="button" class="icon-option" data-icon="📖">📖</button>
+                            <button type="button" class="icon-option" data-icon="🧘">🧘</button>
+                            <button type="button" class="icon-option" data-icon="💊">💊</button>
+                            <button type="button" class="icon-option" data-icon="☕">☕</button>
+                            <button type="button" class="icon-option" data-icon="🌿">🌿</button>
+                            <button type="button" class="icon-option" data-icon="💊">⏰</button>
+                            <button type="button" class="icon-option" data-icon="💕">💕</button>
+                        </div>
+                    </div>
+
+                    <!-- 提醒时间 -->
+                    <div class="form-group">
+                        <label class="form-label">提醒时间</label>
+                        <input type="time" class="form-input" id="reminderTime" required>
+                    </div>
+
+                    <!-- 重复频率 -->
+                    <div class="form-group">
+                        <label class="form-label">重复频率</label>
+                        <div class="repeat-options">
+                            <button type="button" class="repeat-option active" data-repeat="daily">每天</button>
+                            <button type="button" class="repeat-option" data-repeat="weekday">工作日</button>
+                            <button type="button" class="repeat-option" data-repeat="weekend">周末</button>
+                            <button type="button" class="repeat-option" data-repeat="once">仅一次</button>
+                        </div>
+                    </div>
+
+                    <!-- 指定星期（仅显示） -->
+                    <div class="form-group hidden" id="weekdayGroup">
+                        <label class="form-label">选择星期</label>
+                        <div class="weekday-picker">
+                            <button type="button" class="weekday-option" data-day="1">一</button>
+                            <button type="button" class="weekday-option" data-day="2">二</button>
+                            <button type="button" class="weekday-option" data-day="3">三</button>
+                            <button type="button" class="weekday-option" data-day="4">四</button>
+                            <button type="button" class="weekday-option" data-day="5">五</button>
+                            <button type="button" class="weekday-option" data-day="6">六</button>
+                            <button type="button" class="weekday-option" data-day="0">日</button>
+                        </div>
+                    </div>
+
+                    <!-- 提醒提前量 -->
+                    <div class="form-group">
+                        <label class="form-label">提前提醒</label>
+                        <select class="form-input" id="reminderAdvance">
+                            <option value="0">准时提醒</option>
+                            <option value="5">提前 5 分钟</option>
+                            <option value="10">提前 10 分钟</option>
+                            <option value="15">提前 15 分钟</option>
+                            <option value="30">提前 30 分钟</option>
+                            <option value="60">提前 1 小时</option>
+                        </select>
+                    </div>
+
+                    <!-- 备注 -->
+                    <div class="form-group">
+                        <label class="form-label">备注（选填）</label>
+                        <textarea class="form-input form-textarea" id="reminderNote" placeholder="写点想说的话..." maxlength="100"></textarea>
+                    </div>
+
+                    <!-- 提交按钮 -->
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <span>💾 保存提醒</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- 全部提醒列表页 -->
+            <section class="page" id="page-list">
+                <div class="page-title-bar">
+                    <button class="back-btn" onclick="App.goTo('home')">‹</button>
+                    <h2 class="page-title">全部提醒</h2>
+                    <button class="add-fab-small" onclick="App.goTo('add')">+</button>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">全部</button>
+                    <button class="filter-tab" data-filter="active">已启用</button>
+                    <button class="filter-tab" data-filter="disabled">已停用</button>
+                </div>
+
+                <div class="reminder-list" id="allList">
+                    <div class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <p>还没有任何提醒事项</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 设置页 -->
+            <section class="page" id="page-settings">
+                <div class="page-title-bar">
+                    <button class="back-btn" onclick="App.goTo('home')">‹</button>
+                    <h2 class="page-title">设置</h2>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item" onclick="App.requestNotificationPermission()">
+                        <span class="setting-icon">🔔</span>
+                        <div class="setting-content">
+                            <div class="setting-label">通知权限</div>
+                            <div class="setting-desc" id="notifStatus">点击开启通知提醒</div>
+                        </div>
+                        <span class="setting-arrow">›</span>
+                    </div>
+
+                    <div class="setting-item" onclick="App.testNotification()">
+                        <span class="setting-icon">📩</span>
+                        <div class="setting-content">
+                            <div class="setting-label">测试通知</div>
+                            <div class="setting-desc">发送一条测试提醒</div>
+                        </div>
+                        <span class="setting-arrow">›</span>
+                    </div>
+
+                    <div class="setting-item">
+                        <span class="setting-icon">🎵</span>
+                        <div class="setting-content">
+                            <div class="setting-label">提醒声音</div>
+                            <div class="setting-desc">提醒时播放声音</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="soundToggle" checked>
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <span class="setting-icon">📳</span>
+                        <div class="setting-content">
+                            <div class="setting-label">震动提醒</div>
+                            <div class="setting-desc">提醒时震动</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="vibrateToggle" checked>
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item" onclick="App.exportData()">
+                        <span class="setting-icon">📤</span>
+                        <div class="setting-content">
+                            <div class="setting-label">导出数据</div>
+                            <div class="setting-desc">备份你的提醒事项</div>
+                        </div>
+                        <span class="setting-arrow">›</span>
+                    </div>
+
+                    <div class="setting-item" onclick="App.importData()">
+                        <span class="setting-icon">📥</span>
+                        <div class="setting-content">
+                            <div class="setting-label">导入数据</div>
+                            <div class="setting-desc">从备份恢复</div>
+                        </div>
+                        <span class="setting-arrow">›</span>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <span class="setting-icon">ℹ️</span>
+                        <div class="setting-content">
+                            <div class="setting-label">关于粉粉提醒</div>
+                            <div class="setting-desc">版本 1.0.0 · 用心守护每一天</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-footer">
+                    <p>🍑 粉粉提醒 · Made with 💕</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- 底部导航栏 -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-page="home" onclick="App.goTo('home')">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">首页</span>
+            </button>
+            <button class="nav-item" data-page="list" onclick="App.goTo('list')">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">清单</span>
+            </button>
+            <button class="nav-fab" onclick="App.goTo('add')">
+                <span class="fab-icon">+</span>
+            </button>
+            <button class="nav-item" data-page="settings" onclick="App.goTo('settings')">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">设置</span>
+            </button>
+        </nav>
+
+        <!-- 弹窗提示 -->
+        <div class="toast" id="toast"></div>
+
+        <!-- 确认对话框 -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal">
+                <div class="modal-title" id="modalTitle">确认</div>
+                <div class="modal-content" id="modalContent"></div>
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="App.closeModal(false)">取消</button>
+                    <button class="btn-confirm" onclick="App.closeModal(true)">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
