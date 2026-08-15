@@ -1,6 +1,6 @@
 {
-  "version": "2.6.2",
-  "versionCode": 11,
-  "apkUrl": "https://zyx518yyt.github.io/apk/yixinyiyi-v2.6.2.apk",
-  "notes": "修复 App 内更新下载失效（Capacitor 8 兼容）+ 安装引导说明"
+  "version": "2.6.3",
+  "versionCode": 12,
+  "apkUrl": "https://zyx518yyt.github.io/apk/yixinyiyi-v2.6.3.apk",
+  "notes": "修复更新死循环：下载方式改为 Capacitor 8 兼容 + 升级自动清理缓存 + 安装引导"
 }
