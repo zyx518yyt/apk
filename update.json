@@ -1,6 +1,6 @@
-{
-  "version": "2.4.2",
-  "versionCode": 5,
-  "apkUrl": "https://zyx518yyt.github.io/apk/yixinyiyi-v2.4.2.apk",
-  "notes": "新增首页快捷切换天气城市（全国80城+搜索）、更新源配置；多源实时刷新天气金价"
+﻿{
+    "apkUrl":  "https://zyx518yyt.github.io/apk/yixinyiyi-v2.4.3.apk",
+    "versionCode":  6,
+    "version":  "2.4.3",
+    "notes":  "新增：金价人民币换算（按克）、城市搜索支持拼音首字母"
 }
