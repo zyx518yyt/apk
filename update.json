@@ -1,6 +1,6 @@
 {
-  "version": "2.6.1",
-  "versionCode": 10,
-  "apkUrl": "https://zyx518yyt.github.io/apk/yixinyiyi-v2.6.1.apk",
-  "notes": "橘子主题+布局排版大升级：手绘橘子吉祥物、背景漂浮动画、统一排版间距"
+  "version": "2.6.2",
+  "versionCode": 11,
+  "apkUrl": "https://zyx518yyt.github.io/apk/yixinyiyi-v2.6.2.apk",
+  "notes": "修复 App 内更新下载失效（Capacitor 8 兼容）+ 安装引导说明"
 }
