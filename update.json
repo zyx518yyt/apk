@@ -1,6 +1,6 @@
 {
-  "version": "2.6.3",
-  "versionCode": 12,
-  "apkUrl": "https://zyx518yyt.github.io/apk/yixinyiyi-v2.6.3.apk",
-  "notes": "修复更新死循环：下载方式改为 Capacitor 8 兼容 + 升级自动清理缓存 + 安装引导"
+  "version": "2.7.0",
+  "versionCode": 13,
+  "apkUrl": "https://zyx518yyt.github.io/apk/yixinyiyi-v2.7.0.apk",
+  "notes": "新增待办事项：清单管理+优先级+截止提醒+每天重复+首页今日待办"
 }
